@@ -3,10 +3,10 @@ import React from 'react';
 const Smurf = (props) => {
     return (
         <div>
-            <h3>Smurf#{props.key + 1}</h3>
-            <div>{props.name}</div>
-            <div>{props.age}</div>
-            <div>{props.height}</div>
+            <h3>Smurf</h3>
+            <div>Name: {props.name}</div>
+            <div>Age: {props.age}</div>
+            <div>Height: {props.height}</div>
         </div>
     )
 }

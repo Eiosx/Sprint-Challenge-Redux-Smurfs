@@ -5,7 +5,11 @@
 import axios from 'axios';
 
 export const FETCHING_SMURFS = 'FETCHING_SMURFS';
+export const FETCHING_SUCCESS = 'FETCHING_SUCCESS';
+export const FETCHING_ERROR = 'FETCHING-ERROR';
 export const ADDING_SMURFS = 'ADDING_SMURFS';
+export const ADDING_SUCCESS = 'ADDING_SUCCESS';
+export const ADDING_ERROR = 'ADDING_ERROR'
 export const UPDATING_SMURFS = 'UPDATING_SMURFS';
 export const DELETING_SMURFS = 'DELETING_SMURFS';
 export const ERROR = 'ERROR';
@@ -16,16 +20,14 @@ export const getSmurfs = () => {
     axios
       .get("http://localhost:3333/smurfs")
       .then((response) => {
-        console.log(response.data)
         dispatch({
-          type: FETCHING_SMURFS,
+          type: FETCHING_SUCCESS,
           payload: response.data
         })
       })
       .catch(err => {
         dispatch({
-          type: ERROR,
-          payload: 'Smurfs Not Found :('
+          type: FETCHING_ERROR
         })
       })
   }
@@ -33,15 +35,16 @@ export const getSmurfs = () => {
 
 export const addSmurf = smurf => {
   return dispatch => {
+    dispatch({ type: ADDING_SMURFS });
     axios.post(`http://localhost:3333/smurfs`, smurf)
       .then(response => {
         dispatch({
-          type: ADDING_SMURFS,
+          type: ADDING_SUCCESS,
           payload: response.data
         })
       })
       .catch(err => {
-        dispatch({ type: ERROR, payload: 'Could Not Add Smurf :(' })
+        dispatch({ type: ADDING_ERROR })
       })
   }
 

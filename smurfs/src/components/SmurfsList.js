@@ -3,17 +3,34 @@ import { connect } from 'react-redux';
 import { getSmurfs } from '../actions';
 import Smurf from './Smurf';
 
-const SmurfsList = props => {
+class SmurfsList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
 
-    return (
-        <div>
-            <button onClick={props.getSmurfs}>Get Smurfs!</button>
-            {console.log(props.smurfs)}
-            {this.state.smurfs.map(smurf, index => {
-                return <Smurf key={index} name={smurf.name} age={smurf.age} height={smurf.height} />
-            })}
-        </div>
-    )
+    componentDidMount() {
+        this.props.getSmurfs();
+    }
+
+    render() {
+        return (
+            <div>
+                {this.props.fetchingSmurfs ?
+                    <h2>LOADING...</h2>
+                    :
+                    this.props.smurfs.map((smurf, index) => {
+                        return <Smurf key={index} name={smurf.name} age={smurf.age} height={smurf.height} />
+                    }
+                    )
+                }
+                {this.props.error ?
+                    <h2>Error Fetching Smurfs!</h2>:
+                null}
+
+            </div>
+        )
+    }
 }
 
 
@@ -21,7 +38,9 @@ const SmurfsList = props => {
 
 const mstp = state => {
     return {
-        smurfs: state.smurfs
+        smurfs: state.smurfs,
+        fetchingSmurfs: state.fetchingSmurfs,
+        error: state.fetchingError
     }
 }
 
